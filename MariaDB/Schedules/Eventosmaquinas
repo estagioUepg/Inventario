@@ -1,0 +1,8 @@
+CREATE OR REPLACE EVENT atualiza_maquina
+ON SCHEDULE EVERY 15 MINUTE
+DO
+insert into inventario.maquina(id, nome_n, ip_n, processador_n, os, mouse, teclado)
+select h.id as id, h.name as nome_n, h.ipaddr as ip_n, h.processort as processador_n, h.osname as os, (select count(*) from inputs i where i.hardware_id=h.id and type="pointing" and (description like "%usb%" or interface like "%usb%" or interface like "%ps/2%" or caption like "%usb%")) as mouse, (select count(*) from inputs i where i.hardware_id=h.id and type="keyboard" and (description like "%usb%" or description like "%ps/2%" or interface like "%usb%" or caption like "%usb%")) as teclado
+from hardware h	
+ON DUPLICATE KEY UPDATE    
+nome_n = values(nome_n), ip_n = values(ip_n), processador_n = values(processador_n), mouse = values(mouse), teclado = values(teclado);

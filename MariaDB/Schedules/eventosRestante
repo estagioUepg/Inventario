@@ -1,0 +1,28 @@
+DELIMITER //
+
+CREATE OR REPLACE EVENT atualiza_restante
+ON SCHEDULE EVERY 15 MINUTE
+DO
+BEGIN
+delete from inventario.video;
+insert into inventario.video(id, id_maquina, nome)
+select v.id as id, v.hardware_id as id_maquina, v.name as nome
+from videos v;
+
+delete from inventario.armazenamento;
+insert into inventario.armazenamento(id, id_maquina, nome, capacidade)
+select a.id as id, a.hardware_id as id_maquina, a.name as nome, a.disksize as capacidade
+from storages a;
+
+delete from inventario.memoria;
+insert into inventario.memoria(id, id_maquina, capacidade, velocidade)
+select m.id as id, m.hardware_id as id_maquina, m.capacity as capacidade, m.speed as velocidade
+from memories m;
+
+delete from inventario.software;
+insert into inventario.software(id, id_maquina, data_instalacao, name_id, pub_id, pasta)
+select s.id as id, s.hardware_id as id_maquina, s.installdate as data_instalacao, s.name_id as name_id, s.publisher_id as pub_id, s.folder as pasta
+from software s;
+END //
+
+DELIMITER ;
