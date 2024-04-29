@@ -7,3 +7,10 @@
 
 ## Insere Restante
 - Deleta recursos de cada máquina e reinsere. Ex: Cada máquina possui duas entradas: Video_n e Video_o. Video_n é atualizado contendo as novas placas de vídeo da máquina, que são comparadas às placas de vídeo em Video_o para identificar inconsistências.
+
+
+
+##NOTA:
+Ativar em my.cnf do mysql os eventos com a linha:
+event_scheduler=on
+
